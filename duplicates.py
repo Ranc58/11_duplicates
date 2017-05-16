@@ -7,7 +7,7 @@ def input_search_output():
     if way_to_dir != 'exit':
         list_of_files_and_sizes = create_list_of_files_and_sizes(way_to_dir)
         copies_print(copies_search(list_of_files_and_sizes)) \
-            if list_of_files_and_sizes is not None else \
+            if list_of_files_and_sizes else \
             print('Some errors. Check that ways to folder is correct '), \
             input_search_output()
     else:
@@ -18,10 +18,10 @@ def input_search_output():
 def create_list_of_files_and_sizes(way_to_dir):
     if os.path.exists(way_to_dir):
         list_of_files_and_sizes = []
-        for root, dirs, files, in os.walk(way_to_dir):
+        for root_path, dirs, files, in os.walk(way_to_dir):
             for file in files:
                 file_size = \
-                    (os.path.getsize(os.path.join(root, file))) / 2 ** 20
+                    (os.path.getsize(os.path.join(root_path, file))) / 2 ** 20
                 list_of_files_and_sizes \
                     .append("'{}' size: {} MB\n"
                             .format(file, ("%.4f" % file_size)))
