@@ -23,7 +23,7 @@ def create_list_of_files_and_sizes(way_to_dir):
                 file_size = \
                     (os.path.getsize(os.path.join(root, file))) / 2 ** 20
                 list_of_files_and_sizes \
-                    .append("'{}' size: {} megabytes\n"
+                    .append("'{}' size: {} MB\n"
                             .format(file, ("%.4f" % file_size)))
         return list_of_files_and_sizes
 
@@ -37,7 +37,7 @@ def copies_search(list_of_files_and_sizes):
 
 def copies_print(dict_of_doubles):
     for value, key in dict_of_doubles.items():
-        print('File: {0} has {1} copies.\n'.format(value, key))
+        print('File: {0} found {1} copies.\n'.format(value, key))
 
 
 if __name__ == '__main__':
