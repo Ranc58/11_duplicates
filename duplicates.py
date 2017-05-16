@@ -1,25 +1,45 @@
 import os
+import sys
+
+
+def input_search_output():
+    way_to_dir = input('Please enter directory or type "exit" to exit: ')
+    if way_to_dir != 'exit':
+        list_of_files_and_sizes = create_list_of_files_and_sizes(way_to_dir)
+        copies_print(copies_search(list_of_files_and_sizes)) \
+            if list_of_files_and_sizes is not None else input_search_output()
+    else:
+        print('GoodBye!')
+        sys.exit()
 
 
 def create_list_of_files_and_sizes(way_to_dir):
-    testing_list = []
-    for root, dirs, files, in os.walk(way_to_dir):
-        for file in files:
-            file_size = os.path.getsize(os.path.join(root, file))
-            testing_list.append("{} имеющий размер: {} мегабайт".format(file, ("%.4f" % (file_size / 2 ** 20))))
-    return testing_list
+    if os.path.exists(way_to_dir):
+        list_of_files_and_sizes = []
+        for root, dirs, files, in os.walk(way_to_dir):
+            for file in files:
+                file_size = \
+                    (os.path.getsize(os.path.join(root, file))) / 2 ** 20
+                list_of_files_and_sizes\
+                    .append("'{}' size: {} megabytes\n"
+                            .format(file, ("%.4f" % file_size)))
+        return list_of_files_and_sizes
+    else:
+        print('Some errors. Please check that ways to folder is correct ')
+        return None
 
 
-def copies_search():
-    dict_of_doubles = dict((x, testing_list.count(x)) for x in set(testing_list) if testing_list.count(x) > 1)
+def copies_search(list_of_files_and_sizes):
+    dict_of_doubles = dict((file, list_of_files_and_sizes.count(file))
+                           for file in set(list_of_files_and_sizes)
+                           if list_of_files_and_sizes.count(file) > 1)
+    return dict_of_doubles
+
+
+def copies_print(dict_of_doubles):
     for value, key in dict_of_doubles.items():
-        print('Файл {0} повторяется {1} раза.'.format(value, key))
-    print(dict_of_doubles)
-
-def copies_print():
-    pass
+        print('File: {0} has {1} copies.\n'.format(value, key))
 
 
 if __name__ == '__main__':
-    # way_to_dir = input('Please enter way to directory: ')
-    create_list_of_files_and_sizes('D:\\books')
+    input_search_output()
