@@ -2,23 +2,23 @@ import os
 
 
 def create_list_of_files_and_sizes(path_to_dir):
-    CONVERT_VALUES = 2 ** 20
+    convert_values = 2 ** 20
     if os.path.exists(path_to_dir):
         files_and_sizes = []
         for root_path, dirs, files, in os.walk(path_to_dir):
             for file in files:
                 str_file_and_size = os.path.join(root_path, file)
-                file_size = (os.path.getsize(str_file_and_size))/CONVERT_VALUES
+                file_size = (os.path.getsize(str_file_and_size))/convert_values
                 files_and_sizes.append("'{}' size: {} MB\n".
                                        format(file, ("%.4f" % file_size)))
         return files_and_sizes
 
 
 def copies_search(files_and_sizes):
-    AVAILABLE_COPIES = 1
+    available_copies = 1
     dict_of_doubles = dict((file, files_and_sizes.count(file))
                            for file in set(files_and_sizes)
-                           if files_and_sizes.count(file) > AVAILABLE_COPIES)
+                           if files_and_sizes.count(file) > available_copies)
     return dict_of_doubles
 
 
