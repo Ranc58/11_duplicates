@@ -1,37 +1,24 @@
 import os
-import sys
 
 
-def input_search_output():
-    way_to_dir = input('Please enter directory or type "exit" to exit: ')
-    if way_to_dir != 'exit':
-        list_of_files_and_sizes = create_list_of_files_and_sizes(way_to_dir)
-        copies_print(copies_search(list_of_files_and_sizes)) \
-            if list_of_files_and_sizes else \
-            print('Some errors. Check that ways to folder is correct '), \
-            input_search_output()
-    else:
-        print('GoodBye!')
-        sys.exit()
-
-
-def create_list_of_files_and_sizes(way_to_dir):
-    if os.path.exists(way_to_dir):
-        list_of_files_and_sizes = []
-        for root_path, dirs, files, in os.walk(way_to_dir):
+def create_list_of_files_and_sizes(path_to_dir):
+    CONVERT_VALUES = 2 ** 20
+    if os.path.exists(path_to_dir):
+        files_and_sizes = []
+        for root_path, dirs, files, in os.walk(path_to_dir):
             for file in files:
-                file_size = \
-                    (os.path.getsize(os.path.join(root_path, file))) / 2 ** 20
-                list_of_files_and_sizes \
-                    .append("'{}' size: {} MB\n"
-                            .format(file, ("%.4f" % file_size)))
-        return list_of_files_and_sizes
+                str_file_and_size = os.path.join(root_path, file)
+                file_size = (os.path.getsize(str_file_and_size))/CONVERT_VALUES
+                files_and_sizes.append("'{}' size: {} MB\n".
+                                       format(file, ("%.4f" % file_size)))
+        return files_and_sizes
 
 
-def copies_search(list_of_files_and_sizes):
-    dict_of_doubles = dict((file, list_of_files_and_sizes.count(file))
-                           for file in set(list_of_files_and_sizes)
-                           if list_of_files_and_sizes.count(file) > 1)
+def copies_search(files_and_sizes):
+    AVAILABLE_COPIES = 1
+    dict_of_doubles = dict((file, files_and_sizes.count(file))
+                           for file in set(files_and_sizes)
+                           if files_and_sizes.count(file) > AVAILABLE_COPIES)
     return dict_of_doubles
 
 
@@ -41,4 +28,9 @@ def copies_print(dict_of_doubles):
 
 
 if __name__ == '__main__':
-    input_search_output()
+    path_to_dir = input('Please enter directory: ')
+    list_of_files_and_sizes = create_list_of_files_and_sizes(path_to_dir)
+    if list_of_files_and_sizes:
+        copies_print(copies_search(list_of_files_and_sizes))
+    else:
+        print('Some errors. Check that way to folder is correct ')
