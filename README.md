@@ -9,7 +9,7 @@ Example of launch in Linux, Python 3.5:
 
 ````
 $ python3 duplicates.py
-# Please enter directory or type "exit" to exit: : <way_to_directory>
+# Please enter directory or type "exit" to exit: : <path_to_directory>
 File: '.DS_Store' size: 0.0059 MB
  Found 8 copies.
 
