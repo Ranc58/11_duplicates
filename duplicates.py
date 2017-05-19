@@ -2,16 +2,20 @@ import os
 
 
 def create_list_of_files_and_sizes(path_to_dir):
-    convert_values = 2 ** 20
+    convert_size_KB_to_MB = 2 ** 20
     if os.path.exists(path_to_dir):
         files_and_sizes = []
         for root_path, dirs, files, in os.walk(path_to_dir):
             for file in files:
                 str_file_and_size = os.path.join(root_path, file)
-                file_size = (os.path.getsize(str_file_and_size))/convert_values
-                files_and_sizes.append("'{}' size: {} MB\n".
-                                       format(file, ("%.4f" % file_size)))
-        return files_and_sizes
+                file_size = (os.path.getsize(str_file_and_size))/convert_size_KB_to_MB
+                #files_and_sizes.append("'{}' size: {} MB\n".
+                #                       format(file, ("%.4f" % file_size)))
+                files_and_sizes.append(dict.fromkeys([file],("%.4f" % file_size)))
+    print(files_and_sizes)
+    #return files_and_sizes
+    for file in files_and_sizes:
+
 
 
 def copies_search(files_and_sizes):
@@ -28,9 +32,10 @@ def copies_print(dict_of_doubles):
 
 
 if __name__ == '__main__':
-    path_to_dir = input('Please enter directory: ')
-    list_of_files_and_sizes = create_list_of_files_and_sizes(path_to_dir)
-    if list_of_files_and_sizes:
-        copies_print(copies_search(list_of_files_and_sizes))
-    else:
-        print('Some errors. Check that way to folder is correct ')
+    create_list_of_files_and_sizes('d:/books')
+    #path_to_dir = 'd://books'
+    #list_of_files_and_sizes = create_list_of_files_and_sizes(path_to_dir)
+    #if list_of_files_and_sizes:
+    #    copies_print(copies_search(list_of_files_and_sizes))
+    #else:
+    #    print('Some errors. Check that way to folder is correct ')
