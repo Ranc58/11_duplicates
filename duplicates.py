@@ -8,34 +8,33 @@ def create_list_of_files_and_sizes(path_to_dir):
         for root_path, dirs, files, in os.walk(path_to_dir):
             for file in files:
                 str_file_and_size = os.path.join(root_path, file)
-                file_size = (os.path.getsize(str_file_and_size))/convert_size_KB_to_MB
-                #files_and_sizes.append("'{}' size: {} MB\n".
-                #                       format(file, ("%.4f" % file_size)))
-                files_and_sizes.append(dict.fromkeys([file],("%.4f" % file_size)))
-    print(files_and_sizes)
-    #return files_and_sizes
+                file_size = (os.path.getsize
+                             (str_file_and_size)) / convert_size_KB_to_MB
+                files_and_sizes.append(dict.fromkeys([file],
+                                                     ("%.4f" % file_size)))
+        return files_and_sizes
+
+
+def copies_list(files_and_sizes):
+    dublicates = []
     for file in files_and_sizes:
+        if files_and_sizes.count(file) > 1:
+            for key, value in file.items():
+                dublicates.append((key, files_and_sizes.count(file)))
+    return dublicates
 
 
-
-def copies_search(files_and_sizes):
-    available_copies = 1
-    dict_of_doubles = dict((file, files_and_sizes.count(file))
-                           for file in set(files_and_sizes)
-                           if files_and_sizes.count(file) > available_copies)
-    return dict_of_doubles
-
-
-def copies_print(dict_of_doubles):
-    for value, key in dict_of_doubles.items():
-        print('File: {0} found {1} copies.\n'.format(value, key))
+def copies_print(dublicates):
+    dublicates_list = set(dublicates)
+    for dublicate in dublicates_list:
+        print('File: {0}\n found {1} copies.\n'
+              .format(dublicate[0], dublicate[1]))
 
 
 if __name__ == '__main__':
-    create_list_of_files_and_sizes('d:/books')
-    #path_to_dir = 'd://books'
-    #list_of_files_and_sizes = create_list_of_files_and_sizes(path_to_dir)
-    #if list_of_files_and_sizes:
-    #    copies_print(copies_search(list_of_files_and_sizes))
-    #else:
-    #    print('Some errors. Check that way to folder is correct ')
+    path_to_dir = input('Please enter way to dir: ')
+    list_of_files_and_sizes = create_list_of_files_and_sizes(path_to_dir)
+    if list_of_files_and_sizes:
+        copies_print(copies_list(list_of_files_and_sizes))
+    else:
+        print('Some errors. Check that way to folder is correct ')
