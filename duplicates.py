@@ -32,7 +32,7 @@ def copies_print(dublicates):
 
 
 if __name__ == '__main__':
-    path_to_dir = input('Please enter way to dir: ')
+    path_to_dir = input('Please enter directory: ')
     list_of_files_and_sizes = create_list_of_files_and_sizes(path_to_dir)
     if list_of_files_and_sizes:
         copies_print(copies_list(list_of_files_and_sizes))
