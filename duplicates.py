@@ -2,14 +2,14 @@ import os
 
 
 def create_list_of_files_and_sizes(path_to_dir):
-    convert_size_KB_to_MB = 2 ** 20
+    convert_size_kb_to_mb = 2 ** 20
     if os.path.exists(path_to_dir):
         files_and_sizes = []
         for root_path, dirs, files, in os.walk(path_to_dir):
             for file in files:
                 str_file_and_size = os.path.join(root_path, file)
                 file_size = (os.path.getsize
-                             (str_file_and_size)) / convert_size_KB_to_MB
+                             (str_file_and_size)) / convert_size_kb_to_mb
                 files_and_sizes.append(dict.fromkeys([file],
                                                      ("%.4f" % file_size)))
         return files_and_sizes
